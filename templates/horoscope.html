@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="container">
+    <div style="background:white !important" class="jumbotron">
+      <h2>BASIC INFORMATION</h2>
+      <table class="table">
+        <tr>
+          <td colspan="3">Name : {{ kund.name }}</td>
+        </tr>
+        <tr>
+          <td colspan="3">Date of Birth : {{ kund.dob }}</td>
+        </tr>
+        <tr>
+          <td colspan="3">Time of Birth : {{ kund.tob }} IST</td>
+        </tr>
+        <tr>
+          <td colspan="3">Place of Birth : {{ kund.pob }}</td>
+        </tr>
+        <tr>
+          <td colspan="3">Latitude : {{ kund.lat }}</td>
+        </tr>
+        <tr>
+          <td colspan="3">Longitude : {{ kund.lon }}</td>
+        </tr>
+        <tr>
+          <td colspan="3">Day of Birth : {{ kund.day }}</td>
+        </tr>
+        <tr>
+          <td colspan="2">Tithi : {{ '%0.2f'|format(kund.tt.0|float) }}</td>
+          <td> Tithi Name : {{ kund.tithi }}</td>
+        </tr>
+        <tr>
+          <td>Nakshatra : {{ '%0.2f'|format(kund.tt.1|float) }}</td>
+          <td>{{ kund.pada }} PADA</td>
+          <td>Nakshatra Name : {{ kund.nakshatra }}</td>
+        </tr>
+        <tr>
+          <td colspan="2">Rasi : {{ '%0.2f'|format(kund.tt.3|float) }}</td>
+          <td>Rasi Name : {{ kund.rasi }}</td>
+        </tr>
+      </table>
+      <h5>{{ kund.dasa_remain }}</h5>
+    </div>
+  </div>
+
+  <div class="container">
+  <div id="accordion">
+    <div class="card">
+      <div class="card-header" id="headingOne">
+        <h2 class="mb-0"> <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          PLANETARY POSITION
+        </button>
+        </h2>
+      </div>
+      <div id="collapseOne" class="collapse show" aria-labelledBy="headingOne" data-parent="#accordion">
+        <div class="card-body">
+          <table class="table table-bordered table-condensed" id="planpos">
+            <tr>
+              <th>PLANET</th>
+              <th>LONGITUDE</th>
+              <th>RASI</th>
+              <th>NAKSHATRA</th>
+              <th>PADA</th>
+              <th>DIRECT/RETROGRADE</th>
+            </tr>
+            {% for row in kund.planpos %}
+            <tr>
+              <td>{{ row.0 }}</td>
+              <td>{{ '%0.2f'|format(row.1|float) }}</td>
+              <td>{{ row.2 }}</td>
+              <td>{{ row.3 }}</td>
+              <td>{{ row.4 }}</td>
+              <td>{{ row.5 }}</td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" id="headingTwo">
+        <h2 class="mb-0"> <button class="btn btn-link" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          BHAVA POSITION
+        </button>
+        </h2>
+      </div>
+      <div id="collapseTwo" class="collapse" aria-labelledBy="headingTwo" data-parent="#accordion">
+        <div class="card-body">
+          <h5>Ayanamsa : {{ '%0.2f'|format(kund.aya|float) }}</h5>
+          <h5>Obliquity : {{ '%0.2f'|format(kund.obliq|float) }}</h5>
+          <h5>Sideral Time : {{ '%0.2f'|format(kund.sidtime|float) }}</h5>
+          <table class="table table-bordered table-condensed" id="bhavpos">
+            <tr>
+              <th>Bhava No.</th>
+              <th>Bhava Begin</th>
+              <th>Mid Bhava</th>
+            </tr>
+            {% for row in kund.bhavas %}
+            <tr>
+              {% for cell in row %}
+              <td>{{ '%-0.2f'|format(cell|float) }}</td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" id="headingThree">
+        <h2 class="mb-0"> <button class="btn btn-link" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          VIMSOTTARI DASA
+        </button>
+        </h2>
+      </div>
+      <div id="collapseThree" class="collapse" aria-labelledBy="headingThree" data-parent="#accordion">
+        <div class="card-body">
+          <table class="table table-bordered table-condensed" id="dasabhukti">
+            <tr>
+              <th>DASA</th>
+              <th>BHUKTI</th>
+              <th>DATE</th>
+              <th>MONTH</th>
+              <th>YEAR</th>
+            </tr>
+            {% for row in kund.dasbuk %}
+            <tr>
+              {% for cell in row %}
+              <td>{{ cell }}</td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" id="headingFour">
+        <h2 class="mb-0"> <button class="btn btn-link" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+          RASI KUNDALI
+        </button>
+        </h2>
+      </div>
+      <div id="collapseFour" class="collapse" aria-labelledBy="headingFour" data-parent="#accordion">
+        <div class="card-body">
+          <table id="kundali">
+            {% for row in kund.rasikundali %}
+            <tr>
+              {% for cell in row %}
+              <td>{{cell}}</td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+{% endblock %}
