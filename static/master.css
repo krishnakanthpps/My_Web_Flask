@@ -1,0 +1,122 @@
+.nav-item {
+  margin-right: 10px;
+}
+
+#planpos {
+  table-layout: fixed;
+}
+
+#planpos td {
+  overflow: auto;
+  text-overflow: ellipsis;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+#kundali{
+  border: 1px solid black;
+  border-collapse: collapse;
+  width: 100%;
+  height: 500px;
+  table-layout: fixed;
+}
+
+#kundali td{
+  border: 1px solid black;
+  max-height: 25%;
+  padding-left: 1%;
+}
+
+#house_13 {
+  text-align: center;
+}
+
+.dasabhukti td {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+#bhavpos td {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+th {
+  background: lightgray;
+  position: sticky;
+  top: 50px;
+}
+
+.vara-form {
+  float: left;
+  width: 45%;
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.vadhu-form {
+  float: right;
+  width: 45%;
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.match-submit {
+  clear: both;
+  padding: 20px;
+}
+
+#match-save {
+  width: 100%;
+  align-items: center;
+}
+
+.sstable tr > *:nth-child(5) {
+  display: none;
+}
+
+.red {
+  background: red;
+  color: white;
+}
+
+.green {
+  background: green;
+  color: white;
+}
+
+#total-comp {
+  display: none;
+}
+
+.sidebar {
+  background: black;
+}
+
+.card-header {
+  background: #85929E;
+}
+
+.vv-head {
+  color: #F7F9F9;
+}
+
+#infor td:nth-child(1) {
+  font-weight: bold;
+}
+
+#house_13 {
+  font-weight: bold;
+}
+
+#kundali tr td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+#apara-table::before {
+  background-image: url('/copyright.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}

@@ -8,7 +8,7 @@ nakshatra_name = ['ASWINI','BHARANI','KRUTHIKA','ROHINI','MRUGASIRA','ARDRA','PU
 x1 = ['KETU','SUKRA','RAVI','CHANDRA','KUJA','RAHU','GURU','SANI','BUDHA']
 y1 = [7,20,6,10,7,18,16,19,17]
 graha = ['LAGN','RAVI','BUDH','SUKR','KUJA','GURU','SANI','CHAN','RAHU','KETU','URAN','NEPT','PLUT']
-div = ['    RASI     ', '  DREKKANA  ', ' SAPTHAMSA ', ' NAVAMSA ',' DASAMSA ',' DWADASAMSA ', ' SHODASAMSA ']
+div = ['RASI', 'DREKKANA', 'SAPTHAMSA', 'NAVAMSA','DASAMSA','DWADASAMSA', 'SHODASAMSA']
 plnt = np.zeros(shape=(26,1))
 pret = np.zeros(shape=(3,1))
 mid_bhav = np.zeros(shape=(12,1))
@@ -17,6 +17,23 @@ bhavas = np.empty([12,3], dtype=object)
 varga = np.zeros(shape=(13,7))
 tt = np.zeros(shape=(4,1))
 planpos = np.empty([12,6], dtype=object)
+epoch = 0
+pos_in_kundali = {
+    graha[0] : [None]*7,
+    graha[1] : [None]*7,
+    graha[2] : [None]*7,
+    graha[4] : [None]*7,
+    graha[3] : [None]*7,
+    graha[5] : [None]*7,
+    graha[6] : [None]*7,
+    graha[7] : [None]*7,
+    graha[8] : [None]*7,
+    graha[9] : [None]*7,
+    graha[10] : [None]*7,
+    graha[11] : [None]*7,
+    graha[12] : [None]*7,
+}
+charts = np.empty([7,1], dtype=object)
 dasa_remain = ''
 co = 0.0
 h6 = 0.0
@@ -38,6 +55,7 @@ tithi = ''
 nakshatra = ''
 pada = 0
 rasi = ''
+arka = ''
 
 pi = np.pi
 p2 = pi / 180
@@ -193,7 +211,7 @@ def sun(co,ret):
     Ms = 356.0470 + 0.9856002585*co
     while (Ms < 0):
         Ms += 360
-        Ls = (w+Ms)%360
+    Ls = (w+Ms)%360
     pno = 1
     sun = planet (N, i, w, a, e, Ms, pno) - plnt[0]
     if  (sun < 0):
@@ -300,10 +318,6 @@ def moon(co,ret):
     M = 115.3654 + 13.0649929509*co
     while M < 0.0:
         M += 360.0
-    while w < 0.0:
-        w += 360.0
-    while N < 0.0:
-        N += 360.0
     E0 = M + (180/pi) * e * sin(rad(M)) * (1+e*cos(rad(M)))
     for ix in range(0,10):
         E1 = E0-(E0-(180/pi)*e*sin(rad(E0))-M)/(1-e*cos(E0))
@@ -312,7 +326,6 @@ def moon(co,ret):
             break
         else:
             E0=E1
-            ix += 1
     x = a * (cos(rad(E)) - e)
     y = a * sqrt(1 - e*e) * sin(rad(E))
     r = sqrt(x*x+y*y)
@@ -329,6 +342,8 @@ def moon(co,ret):
     elif lonecl < 0:
         while lonecl < 0:
             lonecl += 360
+    lon_corr = (3.82394*epow(-5)) * (365.2422 * (epoch - 2000)-co)
+    lonecl += lon_corr
     Lm = N+w+M
     D = Lm-Ls
     F = Lm-N
@@ -415,6 +430,12 @@ def pluto(b6,ret):
 def ayan(b6):
     global plnt
     plnt[0] = 22.460148 + 1.396042*b6 + (b6*b6*(3.08*epow(-4)))
+
+def get_epoch(dttm):
+    global epoch
+    day_of_year = dttm.timetuple().tm_yday
+    year = dttm.year
+    epoch = year + (day_of_year/365)
 
 def first_bhava(a,c):
     r = aya
@@ -535,7 +556,7 @@ def misc():
 
 # VARGA TABLES
 def saptavarga_table_computation(y,x,t):
-    global varga
+    global varga, pos_in_kundali, arka
     j = np.zeros(shape=(8,1))
     q = int(x/30)
     z = int(q+1)
@@ -572,46 +593,46 @@ def saptavarga_table_computation(y,x,t):
     for i in range(1,8):
         varga[t][i-1] = j[i]
         i += 1
+    for i in range(1,8):
+        n = int(j[i][0])
+        m = y[0:4]
+        pos_in_kundali[m][i-1] = n
+    if t==1:
+        arka = rasi_name[int(j[1][0])-1]
 
 def saptavarga_table():
-    saptavarga_table_computation('LAGNA   ',mid_bhav[0],0)
-    saptavarga_table_computation('SUN     ',plnt[1],1)
-    saptavarga_table_computation('MERCURY ',plnt[2],2)
-    saptavarga_table_computation('VENUS   ',plnt[3],3)
-    saptavarga_table_computation('MARS    ',plnt[4],4)
-    saptavarga_table_computation('JUPITER ',plnt[5],5)
-    saptavarga_table_computation('SATURN  ',plnt[6],6)
-    saptavarga_table_computation('MOON    ',plnt[7],7)
-    saptavarga_table_computation('RAHU    ',plnt[8],8)
-    saptavarga_table_computation('KETU    ',plnt[9],9)
-    saptavarga_table_computation('URANUS  ',plnt[10],10)
-    saptavarga_table_computation('NEPTUNE ',plnt[11],11)
-    saptavarga_table_computation('PLUTO   ',plnt[12],12)
+    saptavarga_table_computation('LAGNA',mid_bhav[0],0)
+    saptavarga_table_computation('RAVI',plnt[1],1)
+    saptavarga_table_computation('BUDHA',plnt[2],2)
+    saptavarga_table_computation('SUKRA',plnt[3],3)
+    saptavarga_table_computation('KUJA',plnt[4],4)
+    saptavarga_table_computation('GURU',plnt[5],5)
+    saptavarga_table_computation('SANI',plnt[6],6)
+    saptavarga_table_computation('CHANDRA',plnt[7],7)
+    saptavarga_table_computation('RAHU',plnt[8],8)
+    saptavarga_table_computation('KETU',plnt[9],9)
+    saptavarga_table_computation('URANUS',plnt[10],10)
+    saptavarga_table_computation('NEPTUNE',plnt[11],11)
+    saptavarga_table_computation('PLUTO',plnt[12],12)
 
-def varga_calc(m):
-    tz = np.empty([33,8], dtype=object)
-    for i in range(0,33):
-        for j in range(0,8):
-            tz[i][j] = ''
-            j += 1
-        i+=1
-    for i in range(0,13):
-        s = int(varga[i][m])
-        if s<4:
-            r = s+1
-        elif s<7:
-            r = (s-2)*4
-        elif s<10:
-            r = 22-s
-        else:
-            r = (12-s)*4 + 1
-        p = int((r-1)/4 + 1)
-        q = int(r - (p-1)*4)
-        u = int((p-1)*8 + 2 + i/2)
-        v = int((q-1)*2 + i % 2)
-        tz[u][v] = graha[i]
-        i += 1
-    return tz
+def table():
+    global charts
+    for i in range (0,7):
+        html = '<tr class="h_cell">' + '<td id="house_12" class= "house_cell">' + generate_house(i,12) + '</td><td id="house_1" class= "house_cell">' + generate_house(i,1) + '</td><td id="house_2" class= "house_cell">' + generate_house(i,2) + '</td><td id="house_3" class= "house_cell">' + generate_house(i,3) + '</td>' + '</tr><tr  class="h_cell">' + '<td id="house_11" class= "house_cell">' + generate_house(i,11) + '</td><td id="house_13" class= "house_cell" rowspan="2" colspan="2">' + generate_house(i,13) + '</td><td id="house_4" class= "house_cell">' + generate_house(i,4) + '</td>' + '</tr><tr class="h_cell">' + '<td id="house_10" class= "house_cell">' + generate_house(i,10) + '</td><td id="house_5" class= "house_cell">' + generate_house(i,5) + '</td>' + '</tr><tr class="h_cell">' + '<td id="house_9" class= "house_cell">' + generate_house(i,9) + '</td><td id="house_8" class= "house_cell">' + generate_house(i,8) + '</td><td id="house_7" class= "house_cell">' + generate_house(i,7) + '</td><td id="house_6" class= "house_cell">' + generate_house(i,6) + '</td>' + '</tr>'
+        charts[i] = html
+
+def generate_house(index, num):
+    list = []
+    for key, value in pos_in_kundali.items():
+        if value[index] == num:
+            list.append(key)
+    if num == 13:
+        list.append(div[index] + ' KUNDALI')
+    html = ''
+    if len(list) > 0:
+        for item in list:
+            html += item + '  '
+    return html
 
 def planet_position():
     global planpos
@@ -670,13 +691,11 @@ def dasabhukti(qz,az,ez,bz,i):
             if i>0:
                 db[counter] = [x1[c],x1[n],t,r,p]
             counter += 1
-            d += 1
-        if bz>ez:
-            break
-        c += 1
         if i>0:
             db[counter] = ['','','','','']
         counter += 1
+        if bz>ez:
+            break
     if i>0:
         return db
     else:
@@ -689,7 +708,7 @@ class Astro():
         lat = float(latit[0]) + (float(latit[1]) / 60)
         longt = float(longit[0]) + (float(longit[1]) / 60)
         db = dob.split('.')
-        tb = tob.split('.')
+        tb = tob.split(':')
         d = int(db[0])
         m = int(db[1])
         y = int(db[2])
@@ -701,6 +720,7 @@ class Astro():
         co = constant(dttm)
         JD = julian_date(dttm)
         ret = False
+        get_epoch(dttm)
         preturb(JD,co)
         ayan(b6)
         sun(co,ret)
@@ -718,6 +738,7 @@ class Astro():
         b6 = constant_b6(dttm)
         co = constant(dttm)
         JD = julian_date(dttm)
+        get_epoch(dttm)
         preturb(JD,co)
         sun(co,ret)
         mercury(co,ret)
@@ -735,6 +756,12 @@ class Astro():
         saptavarga_table()
         dasbuk = vimst(float(d), float(m), float(y))
         misc()
+        table()
+
+        if tt[0] < 15.0:
+            paksha = "SUKLA"
+        else:
+            paksha = "KRISHNA"
 
         self.name = name
         self.pob = pob
@@ -744,13 +771,6 @@ class Astro():
         self.aya = aya
         self.obliq = obliq
         self.sidtime = sidtime
-        self.rasikundali = varga_calc(0)
-        self.drekkanakundali = varga_calc(1)
-        self.sapthamsakundali = varga_calc(2)
-        self.navamsakundali = varga_calc(3)
-        self.dasamsakundali = varga_calc(4)
-        self.dwadasamsakundali = varga_calc(5)
-        self.shodasamsakundali = varga_calc(6)
         self.dob = dob
         self.tob = tob
         self.lat = latitude
@@ -763,3 +783,6 @@ class Astro():
         self.pada = pada
         self.planpos = planpos
         self.dasbuk = dasbuk
+        self.charts = charts
+        self.arka = arka
+        self.paksha = paksha

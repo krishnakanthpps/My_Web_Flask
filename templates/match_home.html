@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container col-sm-12">
+  <div class="jumbotron">
+    <h1>Enter Details of Vara and Vadhu</h1>
+  </div>
+</div>
+
+<div class="container">
+      <form class="form-horizontal" action= {{ url_for('match') }} method="post">
+        <div class="form-group vara-form">
+          <label for="vara-name" class="control-label">Name of Vara: </label>
+          <div class="">
+              <input type="text" name="vara-name" placeholder="Enter Name of Vara" class="form-control">
+          </div><br>
+          <label for="vara-pob" class="control-label">Place Of Birth of Vara: </label>
+          <div class="input-group">
+            <select id="listPlaces" name="vara-pob" placeholder="Enter Place Of Birth of Vara" class="form-control" required>
+              {{ placelist|safe }}
+            </select>
+          </div><br>
+          <label for="vara-dob" class="control-label">Date Of Birth of Vara: </label>
+          <div class="">
+            <input type="date" name="vara-dob" placeholder="Enter Date Of Birth In Format YYYY-MMM-DD" class="form-control" required>
+          </div><br>
+          <label for="vara-tob" class="control-label">Time Of Birth of Vara: </label>
+          <div class="">
+            <input type="time" name="vara-tob" placeholder="Enter Time Of Birth In 24-Hour Format HH.MM" class="form-control" required>
+          </div>
+      </div>
+
+      <div class="vadhu-form">
+        <label for="vadhu-name" class="control-label">Name of Vadhu: </label>
+        <div class="">
+            <input type="text" name="vadhu-name" placeholder="Enter Name of Vadhu" class="form-control">
+        </div><br>
+        <label for="vadhu-pob" class="control-label">Place Of Birth of Vadhu: </label>
+        <div class=" input-group">
+          <select id="listPlaces" name="vadhu-pob" placeholder="Enter Place Of Birth of Vadhu" class="form-control" required>
+            {{ placelist|safe }}
+          </select>
+        </div><br>
+        <label for="vadhu-dob" class="control-label">Date Of Birth of Vadhu: </label>
+        <div class="">
+          <input type="date" name="vadhu-dob" placeholder="Enter Date Of Birth In Format YYYY-MMM-DD" class="form-control" required>
+        </div><br>
+        <label for="vadhu-tob" class="control-label">Time Of Birth of Vadhu: </label>
+        <div class="">
+          <input type="time" name="vadhu-tob" placeholder="Enter Time Of Birth In 24-Hour Format HH.MM" class="form-control" required>
+        </div>
+      </div>
+
+       <div class="form-group match-submit">
+          <div class="col-sm-offset-2">
+            <button type="submit" class="btn btn-primary btn-lg fa fa-check" id="match-save"> Submit</button>
+          </div>
+        </div>
+      </form>
+  </div>
+
+{% endblock %}

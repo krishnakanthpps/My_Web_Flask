@@ -1,0 +1,358 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container-fluid h-100">
+  <div class="row h-100 sidebar">
+    <aside class="col-12 col-md-2 p-0 bg-dark fixed-bottom">
+      <nav class="navbar navbar-expand navbar-dark bg-dark flex-md-column flex-row align-items-start py-2">
+        <div class="collapse navbar-collapse align-items-start">
+          <ul class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
+            <li class="nav-item">
+              <a class="nav-link pl-0 text-nowrap" href="{{ url_for('match_form') }}"><i class="fa fa-backward fa-fw"></i><span class="font-weight-bold">BACK</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pl-0 text-nowrap" href="#info"><i class="fa fa-info fa-fw"></i><span class="d-none d-md-inline">INFORMATION</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pl-0 text-nowrap" href="#points"><i class="fa fa-table fa-fw"></i><span class="d-none d-md-inline">POINTS TABLE</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pl-0 text-nowrap" href="#samasandhi"><i class="fa fa-exchange fa-fw"></i><span class="d-none d-md-inline">SAMA SANDHI</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pl-0 text-nowrap" href="#k-dosha"><i class="fa fa-mars fa-fw"></i><span class="d-none d-md-inline">KUJA DOSHA</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pl-0 text-nowrap" href="#rchart"><i class="fa fa-pie-chart fa-fw"></i><span class="d-none d-md-inline">RASI KUNDALI</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pl-0 text-nowrap" href="#nchart"><i class="fa fa-pie-chart fa-fw"></i><span class="d-none d-md-inline">NAVAMSA KUNDALI</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pl-0 text-nowrap" href="#db"><i class="fa fa-list fa-fw"></i><span class="d-none d-md-inline">DASA BHUKTI</span></a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </aside>
+    <main class="col offset-md-2 bg-faded py-3">
+      <div id="accordion">
+
+        <div class="card">
+          <div class="card-header" id="headingZero">
+            <h2 class="mb-0"> <button class="btn btn-link vv-head" data-toggle="collapse" data-target="#collapseZero" aria-expanded="true" aria-controls="collapseZero" id="info">
+              INFORMATION
+            </button>
+            </h2>
+          </div>
+          <div id="collapseZero" class="collapse show" aria-labelledBy="headingZero" data-parent="#accordion">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-6">
+                  <table class="table table-bordered table-striped" id="infor">
+                    <tr>
+                      <td>NAME</td><td>{{ vara.name|upper }}</td>
+                    </tr>
+                    <tr>
+                      <td>DATE OF BIRTH</td><td>{{ vara.dob }}</td>
+                    </tr>
+                    <tr>
+                      <td>TIME OF BIRTH</td><td>{{ vara.tob }}</td>
+                    </tr>
+                    <tr>
+                      <td>PLACE OF BIRTH</td><td>{{ vara.pob|upper }}</td>
+                    </tr>
+                    <tr>
+                      <td>DAY OF BIRTH</td><td>{{ vara.day|upper }}</td>
+                    </tr>
+                    <tr>
+                      <td>TITHI</td><td>{{ vara.tithi|upper }}</td>
+                    </tr>
+                    <tr>
+                      <td>NAKSHATRA</td><td>{{ vara.nakshatra|upper }} {{ vara.pada }} PADA</td>
+                    </tr>
+                    <tr>
+                      <td>RASI</td><td>{{ vara.rasi|upper }}</td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="col-sm-6">
+                  <table class="table table-bordered table-striped" id="infor">
+                    <tr>
+                      <td>NAME</td><td>{{ vadhu.name|upper }}</td>
+                    </tr>
+                    <tr>
+                      <td>DATE OF BIRTH</td><td>{{ vadhu.dob }}</td>
+                    </tr>
+                    <tr>
+                      <td>TIME OF BIRTH</td><td>{{ vadhu.tob }}</td>
+                    </tr>
+                    <tr>
+                      <td>PLACE OF BIRTH</td><td>{{ vadhu.pob|upper }}</td>
+                    </tr>
+                    <tr>
+                      <td>DAY OF BIRTH</td><td>{{ vadhu.day|upper }}</td>
+                    </tr>
+                    <tr>
+                      <td>TITHI</td><td>{{ vadhu.tithi|upper }}</td>
+                    </tr>
+                    <tr>
+                      <td>NAKSHATRA</td><td>{{ vadhu.nakshatra|upper }} {{ vadhu.pada }} PADA</td>
+                    </tr>
+                    <tr>
+                      <td>RASI</td><td>{{ vadhu.rasi|upper }}</td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <h2 class="mb-0"> <button class="btn btn-link vv-head" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" id="points">
+              POINTS TABLE
+            </button>
+            </h2>
+          </div>
+          <div id="collapseOne" class="collapse show" aria-labelledBy="headingOne" data-parent="#accordion">
+            <div class="card-body">
+              <table class="table table-bordered table-condensed points-table" id="ptable">
+                <tr>
+                  <th>KOOTA</th>
+                  <th>{{ vv.bname|upper }}</th>
+                  <th>{{ vv.gname|upper }}</th>
+                  <th>POINTS</th>
+                </tr>
+                {% for row in vv.koota %}
+                <tr>
+                  <td><strong>{{ row.0|upper }}</strong></td>
+                  <td>{{ row.1|upper }}</td>
+                  <td>{{ row.2|upper }}</td>
+                  <td>{{ row.3 }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                  <td colspan="3"><strong>TOTAL</strong></td>
+                  <td>{{ vv.total }}</td>
+                  <td id="total-comp">{{ vv.comp }}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header" id="headingTwo">
+            <h2 class="mb-0"> <button class="btn btn-link vv-head" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" id="samasandhi">
+              SAMA SANDHI
+            </button>
+            </h2>
+          </div>
+          <div id="collapseTwo" class="collapse show" aria-labelledBy="headingTwo" data-parent="#accordion">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h5>{{ vv.bname|upper }} - DASA ENDING DATES</h5>
+                  <table class="sstable table table-bordered table-condensed">
+                    <tr>
+                      <th>DASA</th>
+                      <th>DATE</th>
+                      <th>MONTH</th>
+                      <th>YEAR</th>
+                    </tr>
+                    {% for row in vv.bdasa %}
+                    <tr>
+                      {% for cell in row %}
+                      <td>{{ cell }}</td>
+                      {% endfor %}
+                    </tr>
+                    {% endfor %}
+                  </table>
+                </div>
+                <div class="col-sm-6">
+                  <h5>{{ vv.gname|upper }} - DASA ENDING DATES</h5>
+                  <table class="sstable table table-bordered table-condensed">
+                    <tr>
+                      <th>DASA</th>
+                      <th>DATE</th>
+                      <th>MONTH</th>
+                      <th>YEAR</th>
+                    </tr>
+                    {% for row in vv.gdasa %}
+                    <tr>
+                      {% for cell in row %}
+                      <td>{{ cell }}</td>
+                      {% endfor %}
+                    </tr>
+                    {% endfor %}
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header" id="headingSix">
+            <h2 class="mb-0"> <button class="btn btn-link vv-head" data-toggle="collapse" data-target="#collapseSix" aria-expanded="true" aria-controls="collapseSix" id="k-dosha">
+              KUJA DOSHA
+            </button>
+            </h2>
+          </div>
+          <div id="collapseSix" class="collapse show" aria-labelledBy="headingSix" data-parent="#accordion">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h5>{{ vv.bname|upper }}</h5>
+                  <table class="table table-bordered" id="kdosha">
+                    <tr>
+                      <th>PLANET</th>
+                      <th>POSITION</th>
+                      <th>DOSHA</th>
+                    </tr>
+                    {% for row in vv.bkuja %}
+                    <tr>
+                      {% for cell in row %}
+                      <td>{{cell}}</td>
+                      {% endfor %}
+                    </tr>
+                    {% endfor %}
+                  </table>
+                </div>
+                <div class="col-sm-6">
+                  <h5>{{ vv.gname|upper }}</h5>
+                  <table class="table table-bordered" id="kdosha">
+                    <tr>
+                      <th>PLANET</th>
+                      <th>POSITION</th>
+                      <th>DOSHA</th>
+                    </tr>
+                    {% for row in vv.gkuja %}
+                    <tr>
+                      {% for cell in row %}
+                      <td>{{cell}}</td>
+                      {% endfor %}
+                    </tr>
+                    {% endfor %}
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header" id="headingThree">
+            <h2 class="mb-0"> <button class="btn btn-link vv-head" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree" id="rchart">
+              RASI KUNDALI
+            </button>
+            </h2>
+          </div>
+          <div id="collapseThree" class="collapse show" aria-labelledBy="headingThree" data-parent="#accordion">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h5>{{ vv.bname|upper }}</h5>
+                  <table id="kundali">
+                    {{ vv.bcharts.0.0|safe }}
+                  </table>
+                </div>
+                <div class="col-sm-6">
+                  <h5>{{ vv.gname|upper }}</h5>
+                  <table id='kundali'>
+                    {{ vv.gcharts.0.0|safe }}
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header" id="headingFour">
+            <h2 class="mb-0"> <button class="btn btn-link vv-head" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour" id="nchart">
+              NAVAMSA KUNDALI
+            </button>
+            </h2>
+          </div>
+          <div id="collapseFour" class="collapse show" aria-labelledBy="headingFour" data-parent="#accordion">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h5>{{ vv.bname|upper }}</h5>
+                  <table id="kundali">
+                    {{ vv.bcharts.3.0|safe }}
+                  </table>
+                </div>
+                <div class="col-sm-6">
+                  <h5>{{ vv.gname|upper }}</h5>
+                  <table id='kundali'>
+                    {{ vv.gcharts.3.0|safe }}
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header" id="headingFive">
+            <h2 class="mb-0"> <button class="btn btn-link vv-head" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive" id="db">
+              DASA BHUKTI
+            </button>
+            </h2>
+          </div>
+          <div id="collapseFive" class="collapse show" aria-labelledBy="headingFive" data-parent="#accordion">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h5>{{ vv.bname|upper }}</h5>
+                  <table class="table table-bordered table-condensed dasabhukti">
+                    <tr>
+                      <th>DASA</th>
+                      <th>BHUKTI</th>
+                      <th>DATE</th>
+                      <th>MONTH</th>
+                      <th>YEAR</th>
+                    </tr>
+                    {% for row in vara.dasbuk %}
+                    <tr>
+                      {% for cell in row %}
+                      <td>{{ cell }}</td>
+                      {% endfor %}
+                    </tr>
+                    {% endfor %}
+                  </table>
+                </div>
+                <div class="col-sm-6">
+                  <h5>{{ vv.gname|upper }}</h5>
+                  <table class="table table-bordered table-condensed dasabhukti">
+                    <tr>
+                      <th>DASA</th>
+                      <th>BHUKTI</th>
+                      <th>DATE</th>
+                      <th>MONTH</th>
+                      <th>YEAR</th>
+                    </tr>
+                    {% for row in vadhu.dasbuk %}
+                    <tr>
+                      {% for cell in row %}
+                      <td>{{ cell }}</td>
+                      {% endfor %}
+                    </tr>
+                    {% endfor %}
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+{% endblock %}

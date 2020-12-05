@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row container-fluid">
+  <div class="col-sm-12">
+    <div class="jumbotron">
+      <h1>Enter Details of Death</h1>
+    </div>
+  </div>
+</div>
+
+<div class="row container-fluid">
+    <div class="col-sm-12">
+      <form class="form-horizontal justify-content-center" action= {{ url_for('apara') }} method="post">
+        <div class="form-group">
+          <label for="dod" class="control-label">Date Of Death:</label>
+          <input type="date" name="dod" class="form-control" required><br>
+          <label for="tod" class="control-label">Time Of Death:</label>
+          <input type="time" name="tod" class="form-control" required><br>
+          <label for="cod" class="control-label">Select Type:</label><br>
+          <select class="form-control" name="cod">
+            <option value="S">SOURAMANA</option>
+            <option value="U">CHANDRAMANA - UDUPI</option>
+            <option value="N">CHANDRAMANA - NON UDUPI</option>
+          </select>
+      </div>
+       <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary btn-lg fa fa-check"> Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

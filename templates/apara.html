@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+  <div class="col-sm-12">
+      <table class="table table-bordered table-striped table-sm table-responsive-sm" id="apara-table">
+        <thead class="thead-dark">
+          <th scope="col">NAME</th>
+          <th scope="col">DATE</th>
+          <th scope="col">WEEK</th>
+          <th scope="col">ARKA</th>
+          <th scope="col">MASA</th>
+          <th scope="col">PAKSHA</th>
+          <th scope="col">TITHI</th>
+        </thead>
+        <tbody>
+          <tr style="text-align: center">
+            <td colspan="7"><strong>{{ apara.head }}</strong></td>
+          </tr>
+          {% for row in apara.tab %}
+            <tr>
+              <th scope="row">{{ row.0 }}</th>
+              <td>{{ row.1 }}</td>
+              <td>{{ row.2 }}</td>
+              <td>{{ row.3 }}</td>
+              <td>{{ row.4 }}</td>
+              <td>{{ row.5 }}</td>
+              <td>{{ row.6 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+          <tr class="table-info">
+            <td colspan="7">{{ apara.tail1 }}</td>
+          </tr>
+          <tr class="table-danger">
+            <td colspan="7">{{ apara.tail2 }}</td>
+          </tr>
+          <tr class="table-danger">
+            <td colspan="7">{{ apara.tail3 }}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+{% endblock %}
