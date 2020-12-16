@@ -14,7 +14,6 @@ bcharts = np.empty([7,1], dtype=object)
 gcharts = np.empty([7,1], dtype=object)
 bkuja = np.empty([5,3],dtype=object)
 gkuja = np.empty([5,3],dtype=object)
-comp = 'CC'
 
 def varna_koota(b, g):
     global koota
@@ -350,6 +349,8 @@ class Match():
         bstar = vara.nakshatra
         grasi = vadhu.rasi
         gstar = vadhu.nakshatra
+
+
         varna_koota(brasi, grasi)
         vashya_koota(brasi, grasi)
         tara_koota(bstar, gstar)
@@ -360,16 +361,35 @@ class Match():
         nadi_koota(bstar, gstar)
         dasa(vara.dasbuk, vadhu.dasbuk)
         kuja_dosh(bvarga,gvarga)
+
+        en = False
+        en_class = "red"
+        if bstar == gstar:
+            en = True
+        if en:
+            if bstar in [nakshatra_name[3], nakshatra_name[5], nakshatra_name[7], nakshatra_name[9], nakshatra_name[15], nakshatra_name[21], nakshatra_name[25], nakshatra_name[26]]:
+                en_class = "green"
+            elif bstar in [nakshatra_name[0], nakshatra_name[2], nakshatra_name[4], nakshatra_name[6], nakshatra_name[13], nakshatra_name[16], nakshatra_name[24]]:
+                en_class = 'yellow'
+
+        to_class = "green"
+        if total_points() < 19:
+            to_class = "red"
+
         self.koota = koota
         self.total = total_points()
         self.vara_name = bname
         self.vadhu_name = gname
         self.bdasa = bdasa
         self.gdasa = gdasa
-        self.comp = comp
         self.bname = bname
         self.gname = gname
         self.bcharts = bcharts
         self.gcharts = gcharts
         self.bkuja = bkuja
         self.gkuja = gkuja
+        self.filename = f'Match-{bname}-{gname}'
+        self.en = en
+        self.en_class = en_class
+        self.star = bstar
+        self.to_class = to_class

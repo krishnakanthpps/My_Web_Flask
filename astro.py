@@ -1,6 +1,8 @@
 import numpy as np
 from datetime import datetime, timedelta
+import sqlite3
 
+database = 'achyuthahebbar.db'
 rasi_name = ['MESHA','VRISHABHA','MITHUNA','KARKATAKA','SIMHA','KANYA','TULA','VRISHCHIKA','DHANU','MAKARA','KUMBHA','MEENA']
 tithi_name = ['PADYA','BIDIGE','TADIGE','CHOUTHI','PANCHAMI','SHASTI','SAPTAMI','ASTAMI','NAVAMI','DASHAMI','YEKADASHI','DWADASHI','TRAYODASI','CHATURDASI','HUNNIME','PADYA','BIDIGE','TADIGE','CHOUTHI','PANCHAMI','SHASTI','SAPTAMI','ASTAMI','NAVAMI','DASHAMI','YEKADASHI','DWADASHI','TRAYODASI','CHATURDASI','AMAVASYE']
 nakshatra_name = ['ASWINI','BHARANI','KRUTHIKA','ROHINI','MRUGASIRA','ARDRA','PUNARVASU','PUSHYA','ASHLESHA','MAKHA','HUBBA','UTTARA','HASTA','CHITRA','SWATHI','VISHAKHA',
@@ -701,8 +703,11 @@ def dasabhukti(qz,az,ez,bz,i):
     else:
         return counter
 
+def addDays(d,i):
+    return (d + timedelta(days=i))
+
 class Astro():
-    def __init__(self, pob, dob, tob, latitude, longitude, name=''):
+    def __init__(self, pob, dob, tob, latitude, longitude, name):
         latit = latitude.split('.')
         longit = longitude.split('.')
         lat = float(latit[0]) + (float(latit[1]) / 60)
@@ -763,6 +768,33 @@ class Astro():
         else:
             paksha = "KRISHNA"
 
+        if name == "":
+            name = "guest"
+
+        samvat = ''
+        masa = ''
+        dd = dttm
+        for z in range(0,2):
+            conn = sqlite3.connect(database)
+            panch = conn.cursor().execute("SELECT masa, paksha, samvat FROM panchanga WHERE DATE = ?",(dd.date(),)).fetchall()
+            conn.close()
+            p = ''
+            ms = ''
+            for x in panch:
+                ms = x[0]
+                p = x[1]
+                if samvat == '':
+                    samvat = x[2]
+            if paksha=="SUKLA" and tithi=="PADYA":
+                if p==paksha:
+                    masa = ms
+                    break
+                else:
+                    addDays(dd, 1)
+            else:
+                masa = ms
+                break
+
         self.name = name
         self.pob = pob
         self.bhavas = bhavas
@@ -772,7 +804,7 @@ class Astro():
         self.obliq = obliq
         self.sidtime = sidtime
         self.dob = dob
-        self.tob = tob
+        self.tob = dttm.strftime("%I:%M %p")
         self.lat = latitude
         self.lon = longitude
         self.day = dttm.strftime("%A")
@@ -786,3 +818,8 @@ class Astro():
         self.charts = charts
         self.arka = arka
         self.paksha = paksha
+        self.samvat = samvat
+        self.masa = masa
+        self.filename_e = f'JATAKA-{name}-{dob}-{tob}-ESSENTIAL'
+        self.filename_f = f'JATAKA-{name}-{dob}-{tob}-COMPLETE'
+        self.graha = graha

@@ -31,17 +31,6 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
-  $("td:nth-child(3)").each(function() {
-    if ($(this).text() === "IC") {
-      $(this).parent().addClass("red");
-    }
-    else if ($(this).text() === "CC") {
-      $(this).parent().addClass("green");
-    }
-  });
-});
-
-$(document).ready(function() {
   $("td:nth-child(2)").each(function() {
     if ($(this).text() === "--") {
       $(this).parent().addClass("red");
@@ -51,15 +40,3 @@ $(document).ready(function() {
     }
   });
 });
-
-$(document).ready(function() {
-    $('#apara-table').DataTable( {
-        dom: 'Bfrtip',
-        buttons: [
-            {
-                extend: 'pdfHtml5',
-                download: 'open'
-            }
-        ]
-    } );
-} );

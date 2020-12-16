@@ -1,5 +1,5 @@
 import sqlite3
-from flask import Flask, request, render_template, flash, redirect, url_for, make_response
+from flask import Flask, request, render_template, flash, redirect, url_for, make_response, session, g
 from astro import Astro
 from match import Match
 from apara import Apara
@@ -8,6 +8,33 @@ app = Flask(__name__)
 app.secret_key = 'secret_key'
 app.static_folder = 'static'
 db = 'achyuthahebbar.db'
+
+@app.route("/login")
+def login():
+    return render_template("login.html")
+
+@app.route("/auth_login", methods=["post"])
+def auth_login():
+        session.pop('username',None)
+        uid = request.form.get('uid')
+        pwd = request.form.get('pwd')
+        usr = ["AchyuthaHebbar","Achyutha@276"]
+        if usr[0] != uid:
+            flash(u"Invalid Username","danger")
+            return redirect(url_for("login"))
+        else:
+            if usr[1] != pwd:
+                flash(u"Invalid Password","danger")
+                return redirect(url_for("login"))
+            else:
+                flash(u"Login Successful","success")
+                session['username'] = uid
+                return redirect(url_for("homepage"))
+@app.route("/logout")
+def logout():
+    flash(u"Logout Successful","success")
+    session.pop('username')
+    return redirect(url_for("homepage"))
 
 @app.route("/")
 def homepage():
@@ -192,4 +219,4 @@ def add_city():
     return redirect(url_for('jataka_form'))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)

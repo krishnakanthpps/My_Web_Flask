@@ -31,13 +31,46 @@
             <li class="nav-item">
               <a class="nav-link pl-0 text-nowrap" href="#db"><i class="fa fa-list fa-fw"></i><span class="d-none d-md-inline">DASA BHUKTI</span></a>
             </li>
+            <li>
+              <button class="btn btn-warning fa fa-download" type="button" id="table-btn" onclick="VVExport()"> DOWNLOAD</button>
+              <script type="text/javascript">
+                function VVExport() {
+                    pg1 = html2canvas($("#vv-pg-1"));
+                    queue1 = pg1.parse();
+                    canvas1 = pg1.render(queue1);
+                    p1 = canvas1.toDataURL();
+
+                    pg2 = html2canvas($("#vv-pg-2"));
+                    queue2 = pg2.parse();
+                    canvas2 = pg2.render(queue2);
+                    p2 = canvas2.toDataURL();
+
+                    pg3 = html2canvas($("#vv-pg-3"));
+                    queue3 = pg3.parse();
+                    canvas3 = pg3.render(queue3);
+                    p3 = canvas3.toDataURL();
+
+                    var docDefinition = {
+                      watermark: { text: '© Dr. Achyutha Hebbar', color: 'gray', opacity: 0.1, bold: true, italics: false},
+                      content: [
+                        {image: p1, width: 500, height: 750},
+                        {image: p2, width: 500, height: 750, pageBreak:'before'},
+                        {image: p3, width: 500, height: 750, pageBreak:'before'},
+                      ],
+                      pageSize: 'A4',
+                      pageOrientation: 'portrait'
+                      };
+                    pdfMake.createPdf(docDefinition).download("{{ vv.filename }}.pdf");
+                }
+              </script>
+            </li>
           </ul>
         </div>
       </nav>
     </aside>
     <main class="col offset-md-2 bg-faded py-3">
       <div id="accordion">
-
+        <div id="vv-pg-1">
         <div class="card">
           <div class="card-header" id="headingZero">
             <h2 class="mb-0"> <button class="btn btn-link vv-head" data-toggle="collapse" data-target="#collapseZero" aria-expanded="true" aria-controls="collapseZero" id="info">
@@ -133,12 +166,14 @@
                   <td>{{ row.3 }}</td>
                 </tr>
                 {% endfor %}
-                <tr>
+                <tr class="{{ vv.to_class }}">
                   <td colspan="3"><strong>TOTAL</strong></td>
                   <td>{{ vv.total }}</td>
-                  <td id="total-comp">{{ vv.comp }}</td>
                 </tr>
               </table>
+              {% if vv.en %}
+                <h5 class="{{ vv.en_class }}"><i class="fa fa-exclamation-triangle"></i><strong> EKANAKSHATRA : {{ vv.star }}</strong></h5>
+              {% endif %}
             </div>
           </div>
         </div>
@@ -193,7 +228,9 @@
             </div>
           </div>
         </div>
+      </div>
 
+      <div id="vv-pg-2">
         <div class="card">
           <div class="card-header" id="headingSix">
             <h2 class="mb-0"> <button class="btn btn-link vv-head" data-toggle="collapse" data-target="#collapseSix" aria-expanded="true" aria-controls="collapseSix" id="k-dosha">
@@ -296,7 +333,9 @@
             </div>
           </div>
         </div>
+      </div>
 
+      <div id="vv-pg-3">
         <div class="card">
           <div class="card-header" id="headingFive">
             <h2 class="mb-0"> <button class="btn btn-link vv-head" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive" id="db">
@@ -349,7 +388,7 @@
             </div>
           </div>
         </div>
-
+      </div>
       </div>
     </main>
   </div>

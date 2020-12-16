@@ -1,51 +1,57 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="row">
-  <div class="container col-sm-12">
-    <div class="jumbotron">
-      <h1>Enter Details</h1>
+  <div class="col-sm-12">
+  <div class="container">
+    <div class="bg-light p-5 rounded-lg m-3">
+      <h1 class="display-4">Enter Details</h1>
     </div>
   </div>
-</div>
 
-<div class="row">
-    <div class="col-sm-12">
+    <div class="container">
       <form class="form-horizontal justify-content-center" action= {{ url_for('jataka') }} method="post">
-        <div class="form-group">
-          <label for="name" class="control-label col-sm-2">Name: </label>
-          <div class="col-sm-10">
+        <div class="form-group" id="jataka-form">
+          <label for="name" class="control-label col-sm-2"><i class="fa fa-user"></i> NAME: </label>
+          <div class="input-group mb-3">
               <input type="text" name="name" placeholder="Enter Name" class="form-control">
           </div><br>
-          <label for="pob" class="control-label col-sm-2">Place Of Birth: </label>
-          <div class="col-sm-10 input-group">
+          <label for="pob" class="control-label col-sm-2"><i class="fa fa-map-marker"></i> PLACE OF BIRTH: </label>
+          <div class="input-group mb-3">
             <select id="listPlaces" name="pob" placeholder="Enter Place Of Birth" class="form-control" required>
               {{ placelist|safe }}
             </select>
-            <div class="input-group-btn">
+            {% if session['username'] %}
+            <div class="">
               <a href="{{ url_for ('add_place') }}" class="btn btn-secondary btn-lg fa fa-plus"> Add Place</a>
             </div>
-            <div class="input-group-btn">
+            <div class="">
               <a href="{{ url_for ('delete_place') }}" class="btn btn-secondary btn-lg fa fa-edit"> Edit Place</a>
             </div>
+            {% endif %}
           </div><br>
-          <label for="dob" class="control-label col-sm-2">Date Of Birth: </label>
-          <div class="col-sm-10">
+          <label for="dob" class="control-label col-sm-2"><i class="fa fa-calendar"></i> DATE OF BIRTH: </label>
+          <div class="input-group mb-3">
             <input type="date" name="dob" placeholder="Enter Date Of Birth In Format YYYY-MMM-DD" class="form-control" required>
           </div><br>
-          <label for="tob" class="control-label col-sm-2">Time Of Birth: </label>
-          <div class="col-sm-10">
+          <label for="tob" class="control-label col-sm-2"><i class="fa fa-clock-o"></i> TIME OF BIRTH: </label>
+          <div class="input-group mb-3">
             <input type="time" name="tob" placeholder="Enter Time Of Birth In 24-Hour Format HH.MM" class="form-control" required>
-          </div><br>
+          </div>
       </div>
+      <hr class="my-4">
        <div class="form-group">
           <div class="col-sm-offset-2 col-sm-10">
             <button type="submit" class="btn btn-primary btn-lg fa fa-check" name="save" value="no"> Submit</button>
+            {% if session['username'] %}
             <button type="submit" class="btn btn-primary btn-lg fa fa-save" name="save" value="yes"> Save & Submit</button>
             <a href="{{ url_for ('record_list') }}" class="btn btn-primary btn-lg fa fa-history"> Record</a>
+            {% endif %}
           </div>
         </div>
       </form>
     </div>
+
   </div>
+</div>
 
 {% endblock %}

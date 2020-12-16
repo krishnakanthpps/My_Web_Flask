@@ -253,7 +253,7 @@ def getJataka(d):
     tm = d.strftime("%H:%M")
     la = "12.97"
     lo = "77.63"
-    return Astro(pb,dt,tm,la,lo)
+    return Astro(pb,dt,tm,la,lo,"")
 
 def vyapti(prevday, nextday, tithi):
     i = 24
@@ -326,7 +326,6 @@ class Apara():
             conn.close()
             p = ''
             m = ''
-            print(date, panch)
             for x in panch:
                 m = x[0]
                 p = x[1]
@@ -342,12 +341,13 @@ class Apara():
 
         dt_to_print = dt.strftime("%A %B %d %Y %I:%M:%S %p")
         code = {"S":"SOURAMANA", "U":"CHANDRAMANA", "N":"CHANDRAMANA"}
+        fn = dt.strftime("%d/%m/%y-%H/%M")
 
         tab = gen_table(dt, arka, masa, paksha, tithi, c)
-        #print(tab)
 
-        self.head = f"MASIKA LIST FOR {dt_to_print} IST : {arka} {masa} {paksha} {tithi} : {code[c]}"
+        self.head = f"MASIKA LIST FOR {dt_to_print} IST : {arka}-{masa}-{paksha}-{tithi} : {code[c]}"
         self.tab = tab
         self.tail1 = "PANCHANGA BY Dr.SRINIVASA HEBBAR"
         self.tail2 = "THIS IS A COMPUTER GENERATED TABLE. ERRORS MAY OCCUR. CONSULT PANCHANGA FOR CONFIRMATION"
         self.tail3 = "DRIK GANITHA PANCHANGA IS USED FOR COMPUTATION. CALCULATIONS MAY DIFFER FROM OTHER PANCHANGAS"
+        self.filename = f"MASIKA_LIST-{fn}-{code[c]}"

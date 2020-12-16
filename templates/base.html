@@ -4,11 +4,34 @@
   <head>
     <meta charset="utf-8">
     <title>ACHYUTHA'S WEBSITE</title>
+    <link rel="shortcut icon" href="{{url_for('static', filename='icon/favicon.ico')}}">
+	  <link rel="icon" sizes="16x16 32x32 64x64" href="{{url_for('static', filename='icon/favicon.ico')}}">
+	  <link rel="icon" type="image/png" sizes="196x196" href="{{url_for('static', filename='icon/favicon-192.png')}}">
+	  <link rel="icon" type="image/png" sizes="160x160" href="{{url_for('static', filename='icon/favicon-160.png')}}">
+	  <link rel="icon" type="image/png" sizes="96x96" href="{{url_for('static', filename='icon/favicon-96.png')}}">
+	  <link rel="icon" type="image/png" sizes="64x64" href="{{url_for('static', filename='icon/favicon-64.png')}}">
+	  <link rel="icon" type="image/png" sizes="32x32" href="{{url_for('static', filename='icon/favicon-32.png')}}">
+	  <link rel="icon" type="image/png" sizes="16x16" href="{{url_for('static', filename='icon/favicon-16.png')}}">
+	  <link rel="apple-touch-icon" href="{{url_for('static', filename='icon/favicon-57.png')}}">
+	  <link rel="apple-touch-icon" sizes="114x114" href="{{url_for('static', filename='icon/favicon-114.png')}}">
+	  <link rel="apple-touch-icon" sizes="72x72" href="{{url_for('static', filename='icon/favicon-72.png')}}">
+	  <link rel="apple-touch-icon" sizes="144x144" href="{{url_for('static', filename='icon/favicon-144.png')}}">
+	  <link rel="apple-touch-icon" sizes="60x60" href="{{url_for('static', filename='icon/favicon-60.png')}}">
+	  <link rel="apple-touch-icon" sizes="120x120" href="{{url_for('static', filename='icon/favicon-120.png')}}">
+	  <link rel="apple-touch-icon" sizes="76x76" href="{{url_for('static', filename='icon/favicon-76.png')}}">
+	  <link rel="apple-touch-icon" sizes="152x152" href="{{url_for('static', filename='icon/favicon-152.png')}}">
+	  <link rel="apple-touch-icon" sizes="180x180" href="{{url_for('static', filename='icon/favicon-180.png')}}">
+	  <meta name="msapplication-TileColor" content="#FFFFFF">
+	  <meta name="msapplication-TileImage" content="{{url_for('static', filename='icon/favicon-144.png')}}">
+	  <meta name="msapplication-config" content="{{url_for('static', filename='/browserconfig.xml')}}">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='master.css') }}">
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/master.css') }}">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.dataTables.min.css">
+
+    <link rel="stylesheet" href="{{url_for('static', filename='/css/style.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='/css/responsive.css')}}">
   </head>
 
   <body>
@@ -32,17 +55,32 @@
       {% endwith %}
     </div>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top" role="navigation" id="navbar">
+    <nav class="navbar navbar-expand-sm navbar-inverse bg-dark sticky-top" role="navigation" id="navbar">
       <div class="container">
-        <div class="navbar-nav">
-          <a class="navbar-brand mynav" href="{{ url_for('homepage') }}">Achyutha</a>
-        </div>
-        <div class="navbar-nav mr-auto" id="head-bar">
-          <ul class="nav justify-content-left">
+        <a class="navbar-brand" href="{{ url_for('homepage') }}">
+          <img src="{{url_for('static', filename='icon/favicon-192.png')}}" width="70" height="50" alt="ACHYUTHA">
+        </a>
+        {% if not session['username'] %}
+          <h6 class="nav-item" style="color: white !important"><i class="fa fa-user"></i> GUEST</i></h6>
+        {% else %}
+          <h6 class=" nav-item"style="color: white !important"><i class="fa fa-user"> {{ session['username'] }}</i></h6>
+        {% endif %}
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+          <div class="navbar-nav me-auto mb-2 mb-lg-0" id="head-bar">
             <li class="nav-item"><a class="nav-link" href="{{ url_for('jataka_form') }}" class="btn btn-simple">Jataka</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ url_for('match_form') }}" class="btn btn-simple">Vadhu-Vara</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ url_for('apara_form') }}" class="btn btn-simple">Apara</a></li>
-          </ul>
+          </div>
+          <div class="navbar-nav ml-auto" id="head-bar">
+            {% if not session['username'] %}
+              <li class="nav-item"><a href="{{ url_for('login') }}"><i class="fa fa-sign-in"></i> LOGIN</a></li>
+            {% else %}
+              <li class="nav-item"><a href="{{ url_for('logout') }}">LOGOUT <i class="fa fa-sign-out fa-fw"></i></a></li>
+            {% endif %}
+          </div>
         </div>
       </div>
     </nav>
@@ -53,23 +91,9 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
-<!--    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
--->
-    <script src='https://code.jquery.com/jquery-3.3.1.js'></script>
-<script src='https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js'></script>
-<script src='https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js'></script>
-<script src='https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js'></script>
-<script src='https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js'></script>
-<script src='https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js'></script>
-    <script src="{{url_for('static', filename='master.js')}}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/vfs_fonts.min.js"></script>
+    <script src="{{url_for('static', filename='jss/master.js')}}"></script>
   </body>
 </html>

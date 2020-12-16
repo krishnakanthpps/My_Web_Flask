@@ -1,175 +1,454 @@
 {% extends 'base.html' %}
 {% block content %}
+<div class="container-fluid h-100">
+  <div class="row h-100 sidebar">
+    <aside class="col-12 col-md-2 p-0 bg-dark fixed-bottom">
+      <nav class="navbar navbar-expand navbar-dark bg-dark flex-md-column flex-row align-items-start py-2">
+        <div class="collapse navbar-collapse align-items-start">
+          <ul class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
+            <li class="nav-item">
+              <a class="nav-link pl-0 text-nowrap" href="#info"><i class="fa fa-info fa-fw"></i><span class="d-none d-md-inline">INFORMATION</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pl-0 text-nowrap" href="#rasi"><i class="fa fa-table fa-fw"></i><span class="d-none d-md-inline">RASI KUNDALI</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pl-0 text-nowrap" href="#db"><i class="fa fa-list fa-fw"></i><span class="d-none d-md-inline">DASA BHUKTI</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pl-0 text-nowrap" href="#pp"><i class="fa fa-line-chart fa-fw"></i><span class="d-none d-md-inline">TABLES</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pl-0 text-nowrap" href="#nava"><i class="fa fa-table fa-fw"></i><span class="d-none d-md-inline">CHARTS</span></a>
+            </li>
+            <li>
+              <button class="btn btn-warning fa fa-download" type="button" id="table-btn" onclick="JatakaExport()"> ESSENTIAL</button>
+              <script type="text/javascript">
+                function JatakaExport() {
+                    pg1 = html2canvas($("#jataka-pg-1"));
+                    queue1 = pg1.parse();
+                    canvas1 = pg1.render(queue1);
+                    p1 = canvas1.toDataURL();
 
-  <div class="container">
-    <div class="jumbotron col-sm-12">
-      <h2>BASIC INFORMATION</h2>
-      <table class="table">
-        <tr>
-          <td colspan="3">Name : {{ kund.name|upper }}</td>
-        </tr>
-        <tr>
-          <td colspan="3">Date of Birth : {{ kund.dob }}</td>
-        </tr>
-        <tr>
-          <td colspan="3">Time of Birth : {{ kund.tob }} IST</td>
-        </tr>
-        <tr>
-          <td colspan="3">Place of Birth : {{ kund.pob|upper }}</td>
-        </tr>
-        <tr>
-          <td colspan="3">Latitude : {{ kund.lat }}</td>
-        </tr>
-        <tr>
-          <td colspan="3">Longitude : {{ kund.lon }}</td>
-        </tr>
-        <tr>
-          <td colspan="3">Day of Birth : {{ kund.day|upper }}</td>
-        </tr>
-        <tr>
-          <td colspan="2">Tithi : {{ '%0.2f'|format(kund.tt.0|float) }}</td>
-          <td> Tithi Name : {{ kund.tithi|upper }}</td>
-        </tr>
-        <tr>
-          <td>Nakshatra : {{ '%0.2f'|format(kund.tt.1|float) }}</td>
-          <td>{{ kund.pada }} PADA</td>
-          <td>Nakshatra Name : {{ kund.nakshatra|upper }}</td>
-        </tr>
-        <tr>
-          <td colspan="2">Rasi : {{ '%0.2f'|format(kund.tt.3|float) }}</td>
-          <td>Rasi Name : {{ kund.rasi|upper }}</td>
-        </tr>
-      </table>
-      <h5>{{ kund.dasa_remain }}</h5>
-    </div>
-  </div>
+                    pg2 = html2canvas($("#jataka-pg-2"));
+                    queue2 = pg2.parse();
+                    canvas2 = pg2.render(queue2);
+                    p2 = canvas2.toDataURL();
 
-  <div class="container">
-  <div id="accordion">
-    <div class="card">
-      <div class="card-header" id="headingFour">
-        <h2 class="mb-0"> <button class="btn btn-link" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
-          RASI KUNDALI
-        </button>
-        </h2>
-      </div>
-      <div id="collapseFour" class="collapse show" aria-labelledBy="headingFour" data-parent="#accordion">
-        <div class="card-body">
-          <table id="kundali">
-            {{ kund.charts.0.0|safe }}
-          </table>
+                    var docDefinition = {
+                      watermark: { text: '© Dr. Achyutha Hebbar', color: 'gray', opacity: 0.1, bold: true, italics: false},
+                      content: [
+                        {image: p1, width: 500, height: 750},
+                        {image: p2, width: 500, height: 750, pageBreak:'before'},
+                      ],
+                      pageSize: 'A4',
+                      pageOrientation: 'portrait'
+                      };
+                    pdfMake.createPdf(docDefinition).download("{{ kund.filename_e }}.pdf");
+                }
+              </script>
+            </li>
+            <li>
+              <button class="btn btn-success fa fa-download" type="button" id="table-btn" onclick="JatakaExportFull()"> COMPLETE</button>
+              <script type="text/javascript">
+                function JatakaExportFull() {
+                    pg1 = html2canvas($("#jataka-pg-1"));
+                    queue1 = pg1.parse();
+                    canvas1 = pg1.render(queue1);
+                    p1 = canvas1.toDataURL();
+
+                    pg2 = html2canvas($("#jataka-pg-2"));
+                    queue2 = pg2.parse();
+                    canvas2 = pg2.render(queue2);
+                    p2 = canvas2.toDataURL();
+
+                    pg3 = html2canvas($("#jataka-pg-3"));
+                    queue3 = pg3.parse();
+                    canvas3 = pg3.render(queue3);
+                    p3 = canvas3.toDataURL();
+
+                    pg4 = html2canvas($("#jataka-pg-4"));
+                    queue4 = pg4.parse();
+                    canvas4 = pg4.render(queue4);
+                    p4 = canvas4.toDataURL();
+
+                    pg5 = html2canvas($("#jataka-pg-5"));
+                    queue5 = pg5.parse();
+                    canvas5 = pg5.render(queue5);
+                    p5 = canvas5.toDataURL();
+
+                    var docDefinition = {
+                      watermark: { text: '© Dr. Achyutha Hebbar', color: 'gray', opacity: 0.1, bold: true, italics: false},
+                      content: [
+                        {image: p1, width: 500, height: 750},
+                        {image: p2, width: 500, height: 750, pageBreak:'before'},
+                        {image: p3, width: 500, height: 750, pageBreak:'before'},
+                        {image: p4, width: 500, height: 750, pageBreak:'before'},
+                        {image: p5, width: 500, height: 750, pageBreak:'before'},
+                      ],
+                      pageSize: 'A4',
+                      pageOrientation: 'portrait'
+                      };
+                    pdfMake.createPdf(docDefinition).download("{{ kund.filename_f }}.pdf");
+                }
+              </script>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="col offset-md-2 bg-faded py-3">
+      <div id="accordion">
+        <div id="jataka-pg-1">
+        <div class="card">
+          <div class="card-header" id="headingZero">
+            <h2 class="mb-0"> <button class="btn btn-link vv-head" data-toggle="collapse" data-target="#collapseZero" aria-expanded="true" aria-controls="collapseZero" id="info">
+              INFORMATION
+              </button>
+            </h2>
+          </div>
+          <div id="collapseZero" class="collapse show" aria-labelledBy="headingZero" data-parent="#accordion">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-6">
+                    <table class="table table-bordered table-sm table-striped">
+                        <tr>
+                          <th scope="row">NAME</th>
+                          <td>{{ kund.name|upper }}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">DATE OF BIRTH</th>
+                          <td>{{ kund.dob }}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">TIME OF BIRTH</th>
+                          <td>{{ kund.tob }} IST</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">DAY OF BIRTH</th>
+                          <td>{{ kund.day|upper }}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">PLACE OF BIRTH</th>
+                          <td>{{ kund.pob|upper }}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">LATITUDE</th>
+                          <td>{{ kund.lat }}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">LONGITUDE</th>
+                          <td>{{ kund.lon }}</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="col-sm-6">
+                    <table class="table table-bordered table-sm table-striped">
+                        <tr>
+                          <th scope="row">SAMVATSARA</th>
+                          <td>{{ kund.samvat }}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">ARKA</th>
+                          <td>{{ kund.arka|upper }}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">MASA</th>
+                          <td>{{ kund.masa }}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">PAKSHA</th>
+                          <td>{{ kund.paksha }}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">TITHI</th>
+                          <td>{{ kund.tithi|upper }} ({{ '%0.2f' %kund.tt.0|float }})</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">NAKSHATRA</th>
+                          <td>{{ kund.nakshatra|upper }} ({{ '%0.2f' %kund.tt.1|float }}) {{ kund.pada }} PADA</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">RASI</th>
+                          <td>{{ kund.rasi|upper }}</td>
+                        </tr>
+                    </table>
+                </div>
+              </div>
+                <h5><strong>{{ kund.dasa_remain }}</strong></h5>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header" id="headingFour">
+            <h2 class="mb-0"> <button class="btn btn-link vv-head" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour" id="rasi">
+              RASI KUNDALI
+            </button>
+          </h2>
+        </div>
+        <div id="collapseFour" class="collapse show" aria-labelledBy="headingFour" data-parent="#accordion">
+          <div class="card-body" id="jataka-print">
+            <table id="kundali">
+              {{ kund.charts.0.0|safe }}
+            </table>
+          </div>
         </div>
       </div>
-    </div>
-
-    <div class="card">
-      <div class="card-header" id="headingThree">
-        <h2 class="mb-0"> <button class="btn btn-link" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-          VIMSOTTARI DASA
-        </button>
-        </h2>
       </div>
-      <div id="collapseThree" class="collapse" aria-labelledBy="headingThree" data-parent="#accordion">
-        <div class="card-body">
-          <table class="table table-bordered table-condensed dasabhukti">
-            <tr>
-              <th>DASA</th>
-              <th>BHUKTI</th>
-              <th>DATE</th>
-              <th>MONTH</th>
-              <th>YEAR</th>
-            </tr>
-            {% for row in kund.dasbuk %}
-            <tr>
-              {% for cell in row %}
-              <td>{{ cell }}</td>
+
+      <div class="card">
+      <div id="jataka-pg-2">
+        <div class="card-header" id="headingThree">
+          <h2 class="mb-0"> <button class="btn btn-link vv-head" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" id="db">
+            VIMSOTTARI DASA
+          </button>
+          </h2>
+        </div>
+        <div id="collapseThree" class="collapse show" aria-labelledBy="headingThree" data-parent="#accordion">
+          <div class="card-body" id="jataka-print">
+            <table class="table table-bordered table-condensed dasabhukti" id="jataka-dasa">
+              <tr>
+                <th>DASA</th>
+                <th>BHUKTI</th>
+                <th>DATE</th>
+                <th>MONTH</th>
+                <th>YEAR</th>
+              </tr>
+              {% for row in kund.dasbuk %}
+              <tr>
+                {% for cell in row %}
+                <td>{{ cell }}</td>
+                {% endfor %}
+              </tr>
               {% endfor %}
-            </tr>
-            {% endfor %}
-          </table>
+            </table>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <div id="jataka-pg-3">
+      <div class="card">
+        <div class="card-header" id="headingOne">
+          <h2 class="mb-0"> <button class="btn btn-link vv-head" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" id="pp">
+            PLANETARY POSITION
+          </button>
+          </h2>
+        </div>
+        <div id="collapseOne" class="collapse show" aria-labelledBy="headingOne" data-parent="#accordion">
+          <div class="card-body">
+            <table class="table table-bordered table-sm table-responsive-sm" id="planpos">
+              <thead>
+                <tr>
+                  <th scope="col">PLANET</th>
+                  <th scope="col">LONGITUDE</th>
+                  <th scope="col">RASI</th>
+                  <th scope="col">NAKSHATRA</th>
+                  <th scope="col">PADA</th>
+                  <th scope="col">DIRECT/RETROGRADE</th>
+                </tr>
+              </thead>
+
+              {% for row in kund.planpos %}
+              <tr>
+                <th scope="row">{{ row.0 }}</th>
+                <td>{{ '%0.2f'|format(row.1|float) }}</td>
+                <td>{{ row.2 }}</td>
+                <td>{{ row.3 }}</td>
+                <td>{{ row.4 }}</td>
+                <td>{{ row.5 }}</td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header" id="headingTwo">
+          <h2 class="mb-0"> <button class="btn btn-link vv-head" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" id="bp">
+            BHAVA POSITION
+          </button>
+          </h2>
+        </div>
+        <div id="collapseTwo" class="collapse show" aria-labelledBy="headingTwo" data-parent="#accordion">
+          <div class="card-body">
+            <table class="table table-bordered table-condensed" id="bhavpos">
+              <thead>
+                <tr>
+                  <th>BHAVA NO.</th>
+                  <th>BHAVA BEGIN</th>
+                  <th>MID BHAVA</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for row in kund.bhavas %}
+              <tr>
+                <td>{{ row.0 }}</td>
+                <td>{{ '%-0.2f'|format(row.1|float) }}</td>
+                <td>{{ '%-0.2f'|format(row.2|float) }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+            <tfoot>
+              <tr><td colspan="3"><strong>AYANAMSA : {{ '%0.2f'|format(kund.aya|float) }}</strong></td></tr>
+              <tr><td colspan="3"><strong>OBLIQUITY : {{ '%0.2f'|format(kund.obliq|float) }}</strong></td></tr>
+              <tr><td colspan="3"><strong>SIDERAL TIME : {{ '%0.2f'|format(kund.sidtime|float) }}</strong></td></tr>
+            </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header" id="headingSeven">
+          <h2 class="mb-0"> <button class="btn btn-link vv-head" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven" id="">
+            SAPTAVARGA TABLE
+          </button>
+          </h2>
+        </div>
+        <div id="collapseSeven" class="collapse show" aria-labelledBy="headingSeven" data-parent="#accordion">
+          <div class="card-body">
+            <table class="table table-bordered table-condensed" id="">
+              <thead>
+                <tr>
+                  <th scope="col">PLANET</th>
+                  <th scope="col">RASI</th>
+                  <th scope="col">DREKKANA</th>
+                  <th scope="col">SAPTHAMSA</th>
+                  <th scope="col">NAVAMSA</th>
+                  <th scope="col">DASAMSA</th>
+                  <th scope="col">DWADASAMSA</th>
+                  <th scope="col">SHODASAMSA</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% set count = namespace(value=0) %}
+                {% for row in kund.varga %}
+                <tr>
+                  {% set num = count.value %}
+                  <th scope="row">{{ kund.graha[num] }}</th>
+                  <td>{{ row.0|int }}</td>
+                  <td>{{ row.1|int }}</td>
+                  <td>{{ row.2|int }}</td>
+                  <td>{{ row.3|int }}</td>
+                  <td>{{ row.4|int }}</td>
+                  <td>{{ row.5|int }}</td>
+                  <td>{{ row.6|int }}</td>
+                  {% set count.value = count.value + 1 %}
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-header" id="headingOne">
-        <h2 class="mb-0"> <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-          PLANETARY POSITION
-        </button>
-        </h2>
+    <div id="jataka-pg-4">
+      <div class="card">
+        <div class="card-header" id="headingEight">
+          <h2 class="mb-0"> <button class="btn btn-link vv-head" data-toggle="collapse" data-target="#collapseEight" aria-expanded="true" aria-controls="collapseEight" id="nava">
+            DREKKANA KUNDALI
+          </button>
+          </h2>
+        </div>
+        <div id="collapseEight" class="collapse show" aria-labelledBy="headingEight" data-parent="#accordion">
+          <div class="card-body">
+            <table id="kundali">
+              {{ kund.charts.1.0|safe }}
+            </table>
+          </div>
+        </div>
       </div>
-      <div id="collapseOne" class="collapse" aria-labelledBy="headingOne" data-parent="#accordion">
-        <div class="card-body">
-          <table class="table table-bordered table-condensed" id="planpos">
-            <tr>
-              <th>PLANET</th>
-              <th>LONGITUDE</th>
-              <th>RASI</th>
-              <th>NAKSHATRA</th>
-              <th>PADA</th>
-              <th>DIRECT/RETROGRADE</th>
-            </tr>
-            {% for row in kund.planpos %}
-            <tr>
-              <td>{{ row.0 }}</td>
-              <td>{{ '%0.2f'|format(row.1|float) }}</td>
-              <td>{{ row.2 }}</td>
-              <td>{{ row.3 }}</td>
-              <td>{{ row.4 }}</td>
-              <td>{{ row.5 }}</td>
-            </tr>
-            {% endfor %}
-          </table>
+
+      <div class="card">
+        <div class="card-header" id="headingNine">
+          <h2 class="mb-0"> <button class="btn btn-link vv-head" data-toggle="collapse" data-target="#collapseNine" aria-expanded="true" aria-controls="collapseNine" id="">
+            SAPTHAMSA KUNDALI
+          </button>
+          </h2>
+        </div>
+        <div id="collapseNine" class="collapse show" aria-labelledBy="headingNine" data-parent="#accordion">
+          <div class="card-body">
+            <table id="kundali">
+              {{ kund.charts.2.0|safe }}
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header" id="headingFive">
+          <h2 class="mb-0"> <button class="btn btn-link vv-head" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive" id="">
+            NAVAMSA KUNDALI
+          </button>
+          </h2>
+        </div>
+        <div id="collapseFive" class="collapse show" aria-labelledBy="headingFive" data-parent="#accordion">
+          <div class="card-body">
+            <table id="kundali">
+              {{ kund.charts.3.0|safe }}
+            </table>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-header" id="headingTwo">
-        <h2 class="mb-0"> <button class="btn btn-link" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          BHAVA POSITION
-        </button>
-        </h2>
+    <div id="jataka-pg-5">
+      <div class="card">
+        <div class="card-header" id="headingTen">
+          <h2 class="mb-0"> <button class="btn btn-link vv-head" data-toggle="collapse" data-target="#collapseTen" aria-expanded="true" aria-controls="collapseTen" id="">
+            DASAMSA KUNDALI
+          </button>
+          </h2>
+        </div>
+        <div id="collapseTen" class="collapse show" aria-labelledBy="headingTen" data-parent="#accordion">
+          <div class="card-body">
+            <table id="kundali">
+              {{ kund.charts.4.0|safe }}
+            </table>
+          </div>
+        </div>
       </div>
-      <div id="collapseTwo" class="collapse" aria-labelledBy="headingTwo" data-parent="#accordion">
-        <div class="card-body">
-          <h5>Ayanamsa : {{ '%0.2f'|format(kund.aya|float) }}</h5>
-          <h5>Obliquity : {{ '%0.2f'|format(kund.obliq|float) }}</h5>
-          <h5>Sideral Time : {{ '%0.2f'|format(kund.sidtime|float) }}</h5>
-          <table class="table table-bordered table-condensed" id="bhavpos">
-            <tr>
-              <th>Bhava No.</th>
-              <th>Bhava Begin</th>
-              <th>Mid Bhava</th>
-            </tr>
-            {% for row in kund.bhavas %}
-            <tr>
-              <td>{{ row.0 }}</td>
-              <td>{{ '%-0.2f'|format(row.1|float) }}</td>
-              <td>{{ '%-0.2f'|format(row.2|float) }}</td>
-            </tr>
-            {% endfor %}
-          </table>
+
+      <div class="card">
+        <div class="card-header" id="headingEleven">
+          <h2 class="mb-0"> <button class="btn btn-link vv-head" data-toggle="collapse" data-target="#collapseEleven" aria-expanded="true" aria-controls="collapseEleven" id="">
+            DWADASAMSA KUNDALI
+          </button>
+          </h2>
+        </div>
+        <div id="collapseEleven" class="collapse show" aria-labelledBy="headingEleven" data-parent="#accordion">
+          <div class="card-body">
+            <table id="kundali">
+              {{ kund.charts.5.0|safe }}
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header" id="headingTwelve">
+          <h2 class="mb-0"> <button class="btn btn-link vv-head" data-toggle="collapse" data-target="#collapseTwelve" aria-expanded="true" aria-controls="collapseTwelve" id="">
+            SHODASAMSA KUNDALI
+          </button>
+          </h2>
+        </div>
+        <div id="collapseTwelve" class="collapse show" aria-labelledBy="headingTwelve" data-parent="#accordion">
+          <div class="card-body">
+            <table id="kundali">
+              {{ kund.charts.6.0|safe }}
+            </table>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-header" id="headingFive">
-        <h2 class="mb-0"> <button class="btn btn-link" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
-          NAVAMSA KUNDALI
-        </button>
-        </h2>
-      </div>
-      <div id="collapseFive" class="collapse" aria-labelledBy="headingFiver" data-parent="#accordion">
-        <div class="card-body">
-          <table id="kundali">
-            {{ kund.charts.3.0|safe }}
-          </table>
-        </div>
-      </div>
     </div>
-
-  </div>
-  </div>
+  </main>
+</div>
 {% endblock %}
