@@ -1,13 +1,13 @@
 Flask==1.1.2
 Jinja2==2.11.2
 numpy==1.18.5
-numpydoc @ file:///tmp/build/80754af9/numpydoc_1594166760263/work
+numpydoc==1.1.0
 path==13.1.0
 pathlib2==2.3.5
 pathtools==0.1.2
 pdfkit==0.6.1
 python-dateutil==2.8.1
-python-jsonrpc-server @ file:///tmp/build/80754af9/python-jsonrpc-server_1594397536060/work
+python-jsonrpc-server=0.4.0
 python-language-server @ file:///C:/ci/python-language-server_1594162130238/work
 regex @ file:///C:/ci/regex_1593419644658/work
 requests @ file:///tmp/build/80754af9/requests_1592841827918/work
