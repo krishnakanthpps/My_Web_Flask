@@ -7,10 +7,10 @@ pathlib2==2.3.5
 pathtools==0.1.2
 pdfkit==0.6.1
 python-dateutil==2.8.1
-python-jsonrpc-server=0.4.0
-python-language-server @ file:///C:/ci/python-language-server_1594162130238/work
-regex @ file:///C:/ci/regex_1593419644658/work
-requests @ file:///tmp/build/80754af9/requests_1592841827918/work
+python-jsonrpc-server==0.4.0
+python-language-server==0.36.2
+regex==2021.8.28
+requests==2.26.0
 tables==3.6.1
 virtualenv==20.2.1
 Werkzeug==1.0.1
