@@ -1,1 +1,1 @@
-heroku ps:scale web=1
+web: python my_astro.py
