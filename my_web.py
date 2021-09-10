@@ -5,7 +5,7 @@ from match import Match
 from apara import Apara
 
 app = Flask(__name__)
-app.secret_key = 'secret_key'
+app.secret_key = '12345678'
 app.static_folder = 'static'
 db = 'achyuthahebbar.db'
 
@@ -219,4 +219,4 @@ def add_city():
     return redirect(url_for('jataka_form'))
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)
