@@ -1,1 +1,1 @@
-web: gunicorn my_astro.py
+web: gunicorn my_astro:app
